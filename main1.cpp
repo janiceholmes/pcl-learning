@@ -7,7 +7,7 @@ int main()
 	Mat bgrImg;
 
 
-	//int n = 8;//´ı¼ì²âÍ¼Æ¬µÄÕÅÊı
+	//int n = 8;//å¾…æ£€æµ‹å›¾ç‰‡çš„å¼ æ•°
 	//for (int i = 8; i <= n; i++)
 	//{
 	//	string path = "./9.15/" + to_string(i) + ".bmp";
@@ -32,7 +32,7 @@ int main()
 	//eo.get_planars_by_region_growing(eo.depImg);
 
 	vector <vector<int>> suppress = { {470,650},{470,650},{490,650},{410,560},{400,560},{470,650},{500,650},{490,700} };
-	int n = 8;//´ı¼ì²âÍ¼Æ¬µÄÕÅÊı
+	int n = 8;//å¾…æ£€æµ‹å›¾ç‰‡çš„å¼ æ•°
     for (int i = 1; i <= n; i++)
     {
     	string path = "./9.15/" + to_string(i) + ".bmp";
@@ -60,21 +60,21 @@ int main()
 	//avgErr_x = avgErr_x / double(get_by_pic.size());
 	//avgErr_y = avgErr_y / double(get_by_pic.size());
 	//avgErr_dis = avgErr_dis / double(get_by_pic.size());
-	//cout << "x·½ÏòÉÏµÄÆ½¾ùÎó²î£º" << avgErr_x << endl;
-	//cout << "y·½ÏòÉÏµÄÆ½¾ùÎó²î£º" << avgErr_y << endl;
-	//cout << "Å·Ê½¾àÀëµÄÆ½¾ùÎó²î£º" << avgErr_dis << endl;
+	//cout << "xæ–¹å‘ä¸Šçš„å¹³å‡è¯¯å·®ï¼š" << avgErr_x << endl;
+	//cout << "yæ–¹å‘ä¸Šçš„å¹³å‡è¯¯å·®ï¼š" << avgErr_y << endl;
+	//cout << "æ¬§å¼è·ç¦»çš„å¹³å‡è¯¯å·®ï¼š" << avgErr_dis << endl;
 
-	//¶ÔHSV_S.cppµÄ²âÊÔ
+	//å¯¹HSV_S.cppçš„æµ‹è¯•
 	//for (int i = 0; i <= 23; i++)
 	//{
-	//	cout << "µÚ" << i << "ÕÅÕÕÆ¬" << endl;
-	//	string path = "D:\\ÉîÛÚÏÈ½øÔº\\¹²ÈÚ±ÈÈü2020\\11.06\\" + to_string(i) + "_color.jpg";
+	//	cout << "ç¬¬" << i << "å¼ ç…§ç‰‡" << endl;
+	//	string path = "D:\\æ·±åœ³å…ˆè¿›é™¢\\å…±èæ¯”èµ›2020\\11.06\\" + to_string(i) + "_color.jpg";
 	//	HSV_S vv(path);
 	//	vv.hsvseg(vv.hsvmin, vv.hsvmax, vv.MinArea, vv.MaxArea, vv.result);
 	//	//vv.hsvseg_sperate(vv.hsvmin, vv.hsvmax, vv.hsvmin2, vv.hsvmax2, vv.MinArea, vv.MaxArea, vv.result);
 	//	//vv.YUVseg(vv.yuvmin, vv.yuvmax, vv.MinArea, vv.MaxArea, vv.result);
 	//}
-	//HSV_S vv("D:\\ÉîÛÚÏÈ½øÔº\\¹²ÈÚ±ÈÈü2020\\11.06\\0_color.jpg");
+	//HSV_S vv("D:\\æ·±åœ³å…ˆè¿›é™¢\\å…±èæ¯”èµ›2020\\11.06\\0_color.jpg");
 	//vv.hsvseg(vv.hsvmin, vv.hsvmax, vv.MinArea, vv.MaxArea, vv.result);
 	return 0;
 }
