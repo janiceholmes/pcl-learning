@@ -1,4 +1,4 @@
-//Ö±½ÓÄâºÏÆ½Ãæ
+//ç›´æ¥æ‹Ÿåˆå¹³é¢
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
@@ -14,9 +14,9 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/vtk_io.h>
 #include <pcl/ModelCoefficients.h>
-#include <pcl/sample_consensus/method_types.h>   //Ëæ»ú²ÎÊı¹À¼Æ·½·¨Í·ÎÄ¼ş
-#include <pcl/sample_consensus/model_types.h>   //Ä£ĞÍ¶¨ÒåÍ·ÎÄ¼ş
-#include <pcl/segmentation/sac_segmentation.h>   //»ùÓÚ²ÉÑùÒ»ÖÂĞÔ·Ö¸îµÄÀàµÄÍ·ÎÄ¼ş
+#include <pcl/sample_consensus/method_types.h>   //éšæœºå‚æ•°ä¼°è®¡æ–¹æ³•å¤´æ–‡ä»¶
+#include <pcl/sample_consensus/model_types.h>   //æ¨¡å‹å®šä¹‰å¤´æ–‡ä»¶
+#include <pcl/segmentation/sac_segmentation.h>   //åŸºäºé‡‡æ ·ä¸€è‡´æ€§åˆ†å‰²çš„ç±»çš„å¤´æ–‡ä»¶
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/filters/extract_indices.h>
 #include <pcl/common/centroid.h>
@@ -40,16 +40,16 @@ using namespace std::chrono_literals;
 using namespace std;
 using namespace cv;
 
-//Ö±½ÓÄâºÏÆ½Ãæ
+//ç›´æ¥æ‹Ÿåˆå¹³é¢
 class ThreeEO
 {
 private:
-	//ºì£¬ÂÌ£¬À¶£¬»Æ£¬×ÏÉ«,ÇàÉ«,°×É«
+	//çº¢ï¼Œç»¿ï¼Œè“ï¼Œé»„ï¼Œç´«è‰²,é’è‰²,ç™½è‰²
 	vector<int> r = { 255,0,0,255,255,0,255 };
 	vector<int> g = { 0,255,0,255,0,255,255 };
 	vector<int> b = { 0,0,255,0,255,255,255 };
 	
-	//¿ìµİ¼Ü¸ô°åYUV¿Õ¼äÑÕÉ«
+	//å¿«é€’æ¶éš”æ¿YUVç©ºé—´é¢œè‰²
 	vector<int>yuvmin = { 160,120,120 };
 	vector<int>yuvmax = { 210,130,140 };
 
@@ -59,32 +59,32 @@ public:
 	Mat depImg_rgb;
 	clock_t start, end;
 	double endtime;
-	int suppres_min = 350, suppres_max = 650; //ÏŞ¶¨¹Ø×¢µÄ¾àÀë£¬Ä¬ÈÏÖµÊÇ350µ½650¡£Ã¿Ò»¸ö¸ñ×Ó¿ÉÄÜ²»Í¬¡£
-	//½á¹û·µ»Ø
-	vector<Point2f>ctrpointpx;//¾­¹ı¹ıÂËÖ®ºóµÄÆ½ÃæµÄÖĞĞÄµã£¬¹ıÂËµÄºÃµÄ»°£¬Ö»ÓĞÒ»¸ö£»²»ºÃµÄ»°£¬¿ÉÄÜÓĞ¶à¸ö£¬¶ÔÓÚ¶à¸öµÄÇé¿ö£¬Ê¹ÓÃº¯Êıdecidecp
+	int suppres_min = 350, suppres_max = 650; //é™å®šå…³æ³¨çš„è·ç¦»ï¼Œé»˜è®¤å€¼æ˜¯350åˆ°650ã€‚æ¯ä¸€ä¸ªæ ¼å­å¯èƒ½ä¸åŒã€‚
+	//ç»“æœè¿”å›
+	vector<Point2f>ctrpointpx;//ç»è¿‡è¿‡æ»¤ä¹‹åçš„å¹³é¢çš„ä¸­å¿ƒç‚¹ï¼Œè¿‡æ»¤çš„å¥½çš„è¯ï¼Œåªæœ‰ä¸€ä¸ªï¼›ä¸å¥½çš„è¯ï¼Œå¯èƒ½æœ‰å¤šä¸ªï¼Œå¯¹äºå¤šä¸ªçš„æƒ…å†µï¼Œä½¿ç”¨å‡½æ•°decidecp
 	double pixelx, pixely;
 	cv::Point3d	ctrp = cv::Point3d(0, 0, 0);
 	double angle = 0.0;
-	// Ïà»úÄÚ²Î
+	// ç›¸æœºå†…å‚
 	const double camera_factor = 1;
 	const double camera_cx = 1280 / 2;
 	const double camera_cy = 720 / 2;
 	const double camera_fx = 915.539;
 	const double camera_fy = 913.727;
 
-	/*Éî¶ÈÍ¼²¿·Ö*/
-	//²¼¶ûĞÍº¯Êı - Éî¶ÈÍ¼´æ´¢ - Óë¶ÁÈ¡ÅäÌ×Ê¹ÓÃ
+	/*æ·±åº¦å›¾éƒ¨åˆ†*/
+	//å¸ƒå°”å‹å‡½æ•° - æ·±åº¦å›¾å­˜å‚¨ - ä¸è¯»å–é…å¥—ä½¿ç”¨
 	bool depthimg_save2(const cv::Mat& depimg, std::string path);
-	//²¼¶ûĞÍº¯Êı - Éî¶ÈÍ¼¶ÁÈ¡ - Óë´æ´¢ÅäÌ×Ê¹ÓÃ
+	//å¸ƒå°”å‹å‡½æ•° - æ·±åº¦å›¾è¯»å– - ä¸å­˜å‚¨é…å¥—ä½¿ç”¨
 	bool depthimg_read2(const std::string path, cv::Mat& depimg);
-	/*µãÔÆ²¿·Ö*/
-	int GetRandomNumber();//Ö»ÊÇÓÃÓÚÆ½ÃæÉÏÉ«
-	void get_planars(cv::Mat depth);//Æ½ÃæÄâºÏ
+	/*ç‚¹äº‘éƒ¨åˆ†*/
+	int GetRandomNumber();//åªæ˜¯ç”¨äºå¹³é¢ä¸Šè‰²
+	void get_planars(cv::Mat depth);//å¹³é¢æ‹Ÿåˆ
 	void get_planars_by_color(cv::Mat depImg, cv::Mat bgrImg);
 	void get_planars_by_region_growing(cv::Mat depImg, cv::Mat bgrImg);
 	void get_planars2(pcl::PointCloud<pcl::PointXYZ> cloud, int i);
-	/*¾ö¶¨¶à¸öÖĞĞÄµãµÄÇé¿ö*/
+	/*å†³å®šå¤šä¸ªä¸­å¿ƒç‚¹çš„æƒ…å†µ*/
 	void decidecp();
 
-	/*TODO:Èç¹ûÊÇĞı×ªºĞ×ÓµÄÇé¿ö£¬ÄâºÏÁ½¸öÃæ£¬Èç¹ûÃæ½Ç¶ÈÏàËÆ¾ÍºÏ²¢;·ñÔò¾ÍÊä³öÁ½¸öÆ½ÃæµÄÖĞĞÄµãºÍ×ø±ê*/
+	/*TODO:å¦‚æœæ˜¯æ—‹è½¬ç›’å­çš„æƒ…å†µï¼Œæ‹Ÿåˆä¸¤ä¸ªé¢ï¼Œå¦‚æœé¢è§’åº¦ç›¸ä¼¼å°±åˆå¹¶;å¦åˆ™å°±è¾“å‡ºä¸¤ä¸ªå¹³é¢çš„ä¸­å¿ƒç‚¹å’Œåæ ‡*/
 };
